@@ -22,6 +22,12 @@ function http_request(){
 			var str = '';
 			response.forEach(function(item, index){
 				str += '<div class="item">';
+				if(typeof item.image == 'undefined'){
+					str += '<div class="image"><img src="images/placeholder.png"></div>';
+				}else{
+					str += '<div class="image"><img src="' + item.image + '"></div>';	
+				}
+				
 				str += '<div class="name">' + item.name + '</div>';
 				str += '<div class="price">' + item.price + '</div>';
 				str += '</div>';

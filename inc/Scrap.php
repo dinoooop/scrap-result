@@ -11,33 +11,21 @@ class Scrap {
 
 	public function htmlcontent(){
 		
-		
 		preg_match_all($this->pattern, $this->page_content, $matches, PREG_OFFSET_CAPTURE);
+
 		$records = [];
 
 		if(isset($matches[0])){
 			foreach ($matches[0] as $key => $value) {
-				$records[] = preg_replace('/<[^>]*>/', '', $value[0]);
+				$val = preg_replace('/<[^>]*>/', '', $value[0]);
+				$records[] = preg_replace('/[\n]*/', '', trim($val));
 			}
 		}
 		
 		return $records;
 	}
 
-	public function attr($start, $end){
-		
-		preg_match_all($this->pattern, $this->page_content, $matches, PREG_OFFSET_CAPTURE);
-		$records = [];
-		
-
-		if(isset($matches[0])){
-			foreach ($matches[0] as $key => $value) {
-				$records[] = substr($value[0], $start, $end);
-			}
-		}
-		
-		return $records;
-	}
+	
 
 	public function render_json($param){
 
@@ -84,5 +72,20 @@ class Scrap {
 		}
 
 		return false;
+	}
+
+	function collect(){
+
+		$results =  $this->file_find_query();
+		if($results){
+			// Return result in the local file
+			return $results;
+		}else{
+			// Get result from remote
+			$results = $this->remote_collect();
+			$this->file_append($results);
+			return $results;
+		}
+		
 	}
 }

@@ -39,26 +39,26 @@ class Flipkart extends Scrap {
 		foreach ($names as $key => $value) {
 			$products[$key]['name'] = $value;
 			$products[$key]['price'] = $prices[$key] ?? null;
+			
 		}
 
 		return $products;
 	
 	}
 
-	function collect(){
-
-		$results =  $this->file_find_query();
-		if($results){
-			
-			return $results;
-		}else{
-			
-			$results = $this->remote_collect();
-			$this->file_append($results);
-			return $results;
+	public function attr($start, $end){
+		
+		preg_match_all($this->pattern, $this->page_content, $matches, PREG_OFFSET_CAPTURE);
+		$records = [];
+		
+		if(isset($matches[0])){
+			foreach ($matches[0] as $key => $value) {
+				$records[] = substr($value[0], $start, $end);
+			}
 		}
 		
-	}
+		return $records;
 
+	}
 
 }
