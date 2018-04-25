@@ -3,19 +3,17 @@
 <head>
 	<title>Item search</title>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
-	<script type="text/javascript" src="js/scripts.js"></script>
+	
 </head>
 <body>
 
-	<div class="search-box">
-		<form>
-			<input type="text" name="query" value="" placeholder="Search">
-		</form>
-	</div>
+	<div class="container">
+		<div class="search-box">
+			<input id="search-input" type="text" name="query" value="" placeholder="Looking for...">
+		</div>
 
-	<div class="result-box">
-		
+		<div class="result-box" id="result-box"></div>
 	</div>
-
+	<script type="text/javascript" src="js/scripts.js"></script>
 </body>
 </html>

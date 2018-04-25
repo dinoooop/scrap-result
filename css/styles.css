@@ -1,0 +1,21 @@
+body {
+	font-family: Tahoma, Geneva, sans-serif;
+}
+.container {
+	margin: 0px auto;
+	width: 800px;
+
+}
+
+#search-input {
+	border: 1px solid #CCC;
+	padding: 20px;
+	width: 100%;
+	border-radius: 5px;
+	margin: 20px 0;
+}
+
+.result-box .item {
+	padding: 20px 0;
+	border-bottom: 1px solid #CCC;
+}

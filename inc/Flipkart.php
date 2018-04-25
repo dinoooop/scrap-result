@@ -9,7 +9,8 @@ class Flipkart extends Scrap {
 	}
 	
 
-	public function collect(){
+	public function remote_collect(){
+
 		
 		$this->page_content = file_get_contents($this->url);
 
@@ -41,8 +42,22 @@ class Flipkart extends Scrap {
 		}
 
 		return $products;
-		
+	
+	}
 
+	function collect(){
+
+		$results =  $this->file_find_query();
+		if($results){
+			
+			return $results;
+		}else{
+			
+			$results = $this->remote_collect();
+			$this->file_append($results);
+			return $results;
+		}
+		
 	}
 
 

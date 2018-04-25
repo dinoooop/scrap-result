@@ -5,8 +5,8 @@ class Scrap {
 
 	public function set_url($query){
 		$query = htmlspecialchars($query);
-		$query = urlencode($query);
-		$this->url = str_replace('{{search}}', $query, $this->url);
+		$this->query = urlencode($query);
+		$this->url = str_replace('{{search}}', $this->query, $this->url);
 	}
 
 	public function htmlcontent(){
@@ -26,7 +26,6 @@ class Scrap {
 
 	public function attr($start, $end){
 		
-		
 		preg_match_all($this->pattern, $this->page_content, $matches, PREG_OFFSET_CAPTURE);
 		$records = [];
 		
@@ -41,12 +40,49 @@ class Scrap {
 	}
 
 	public function render_json($param){
+
 		if(is_array($param)){
 			echo json_encode($param);
-		}else{
+		} else {
 			echo $param;
 		}
 
 		exit();
+	}
+
+	public function file_append($records){
+
+		if(empty($records)){
+			return false;
+		}
+
+		$data = [];
+		$data[$this->query] = $records;
+		$json_str = json_encode($data) . PHP_EOL;
+		
+		$file = fopen('public/result.json', 'a+');
+		fwrite($file, $json_str);
+		fclose($file);
+	}
+
+	public function file_find_query(){
+		
+		$handle = fopen('public/result.json', 'a+');
+
+		if ($handle) {
+		    while (($line = fgets($handle)) !== false) {
+		        
+		        if(strpos($line, '"'.$this->query.'"') !== false){
+		        	
+		        	$result = json_decode($line, true);
+		        	return $result[$this->query];
+		        }
+
+		    }
+
+		    fclose($handle);
+		}
+
+		return false;
 	}
 }
